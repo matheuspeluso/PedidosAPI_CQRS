@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PedidosApp.API.Contexts;
+using PedidosApp.API.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,10 @@ builder.Services.AddMediatR(m=> m.RegisterServicesFromAssemblies(AppDomain.Curre
 
 //Injeção de dependência para configurar a conexão com o banco de dados do SQL Server
 builder.Services.AddDbContext<SqlServerContexts>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+
+//Injeção de dependência para configurar a conexão com o banco de dados do MongoDb
+builder.Services.AddScoped<MongoDbContexts>();
+builder.Services.AddScoped<PedidoNotificationHandler>();
 
 var app = builder.Build();
 
